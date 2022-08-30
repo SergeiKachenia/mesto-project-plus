@@ -1,4 +1,5 @@
-    "env": {
+   {
+   "env": {
         "es2021": true,
         "node": true
     },
@@ -29,6 +30,8 @@
         ]
     },
     "rules": {
+    "no-underscore-dangle": "off",
+    "no-param-reassign": "off",
         "import/extensions": [
             "error",
             "ignorePackages",
@@ -37,5 +40,5 @@
                 "ts": "never"
             }
         ]
-    },
+    }
 }
