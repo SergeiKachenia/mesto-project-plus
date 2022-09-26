@@ -4,9 +4,9 @@ import NotFoundError from '../utils/errors/notFound';
 import BadRequestError from '../utils/errors/badRequest';
 import { ISessionRequest } from '../utils/types';
 
-export const getUsers = (req: Request, res: Response, next: NextFunction) => {
+export const getUsers = (res: Response, next: NextFunction) => {
   User.find({})
-    .then((users) => res.status(200).send({ data: users }))
+    .then((users) => res.send({ data: users }))
     .catch(next);
 };
 
@@ -16,7 +16,7 @@ export const getUserById = (req: Request, res: Response, next: NextFunction) => 
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
       }
-      res.status(200).send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -27,10 +27,15 @@ export const getUserById = (req: Request, res: Response, next: NextFunction) => 
 };
 
 export const createUser = (req: Request, res: Response, next: NextFunction) => {
-    User.create(req.body)
-      .then((user) => res.status(200).send({ data: user }))
-      .catch(next);
-  };
+  User.create(req.body)
+    .then((user) => res.send({ data: user }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return next(new BadRequestError(err.message));
+      }
+      return next(err);
+    });
+};
 
 export const updateUser = (req: ISessionRequest, res: Response, next: NextFunction) => {
   const userId = req.user?._id;

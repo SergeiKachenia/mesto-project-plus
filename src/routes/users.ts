@@ -1,4 +1,3 @@
-
 import { Router } from 'express';
 import {
   getUsers, getUserById, createUser, updateUser, updateAvatar,

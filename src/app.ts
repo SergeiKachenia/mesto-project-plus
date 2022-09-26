@@ -1,6 +1,6 @@
-import express, { NextFunction, Response, Request } from 'express';
+import express, { NextFunction, Response } from 'express';
 import mongoose from 'mongoose';
-import router from './routes/index';
+import router from './routes';
 import errorHandler from './middlewares/errorHandler';
 import { ISessionRequest } from './utils/types';
 
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req: ISessionRequest, res: Response, next: NextFunction) => {
-  req.user = { _id: '6330aea2ec0575906f705731', };
+  req.user = { _id: '6330aea2ec0575906f705731' };
   next();
 });
 
