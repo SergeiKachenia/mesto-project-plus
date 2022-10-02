@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { ICard } from '../utils/types';
+import avatarUrlRegexp from '../utils/constants';
 
 const cardsSchema = new Schema<ICard>({
   name: {
@@ -10,7 +11,11 @@ const cardsSchema = new Schema<ICard>({
   },
   link: {
     type: String,
-    required: true,
+    required: [true, 'Обязательное поле'],
+    validate: {
+      validator: (link: string) => avatarUrlRegexp.test(link),
+      message: 'Некорректная ссылка',
+    },
   },
   owner: {
     type: Schema.Types.ObjectId,
